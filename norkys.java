@@ -4,11 +4,117 @@ import java.util.regex.Pattern;
 public class norkys {
     Scanner sc = new Scanner(System.in);
 
-    String[] platos = {"Estofado de pollo", "Pollo al horno", "Lentejas con pescado","Ceviche", "Kankacho", "Rocoto relleno", "Pastel de papa"};
-    double[] precios = {10.0, 11.00, 12.00, 25.0, 30.0, 22.0, 20.0};
-    String[] descripciones=new String[platos.length];
-    String[] tiposPlatos = {"MENU","MENU","MENU","EXTRA","EXTRA","EXTRA","EXTRA"};
-    String[] categorias= {"Menus","Extras"};
+    String[] platos = {"Pollo a la Brasa Entero",
+            "1/2 Pollo a la Brasa",
+            "1/4 Pollo a la Brasa",
+            "Mostrito",
+            "Parrilla Clásica",
+            "1/2 Parrilla Brasa",
+            "Parrilla para Dos",
+            "Churrasco",
+            "Bife a la Parrilla",
+            "Chuleta a la Parrilla",
+            "Pechuga a la Parrilla",
+            "Lomo Saltado",
+            "Pollo Saltado",
+            "Tallarín Saltado de Carne",
+            "Tallarín Saltado de Pollo",
+            "Arroz Chaufa de Pollo",
+            "Arroz Chaufa de Carne",
+            "Arroz Chaufa Mixto",
+            "Salchipapa",
+            "Alitas (Wings)",
+            "Piezas Broaster",
+            "Tamal",
+            "Papa Rellena",
+            "Causa Rellena de Pollo",
+            "Anticuchos",
+            "Piqueo Norky's"
+    };
+
+    double[] precios = {70.00,
+            38.00,
+            25.00,
+            28.00,
+            65.00,
+            40.00,
+            120.00,
+            45.00,
+            50.00,
+            42.00,
+            40.00,
+            35.00,
+            30.00,
+            30.00,
+            28.00,
+            20.00,
+            22.00,
+            25.00,
+            12.00,
+            25.00,
+            20.00,
+            8.00,
+            7.00,
+            10.00,
+            20.00,
+            45.00
+    };
+    String[] descripciones = {"El clásico pollo a la brasa entero, jugoso y dorado, acompañado de papas fritas crocantes y ensalada fresca.",
+            "Media porción del inconfundible pollo a la brasa, servido con papas fritas y ensalada.",
+            "Un cuarto de pollo a la brasa, ideal para una porción individual, acompañado de papas fritas y ensalada.",
+            "La combinación perfecta: un cuarto de pollo a la brasa, acompañado de una porción de arroz chaufa y papas fritas.",
+            "Variedad de carnes a la parrilla como bife, chuleta, pollo, chorizos y más, servido con papas fritas y ensalada.",
+            "Media porción de la parrilla con una selección de carnes asadas y sus acompañamientos.",
+            "Una generosa porción de parrilla pensada para compartir entre dos personas, con diversas carnes y guarniciones.",
+            "Tierno corte de carne a la parrilla, usualmente acompañado de arroz, papas fritas y ensalada.",
+            "Un jugoso bife cocinado a la parrilla, servido con sus guarniciones tradicionales.",
+            "Deliciosa chuleta de cerdo a la parrilla, acompañada de papas fritas y ensalada.",
+            "Filete de pechuga de pollo a la parrilla, una opción ligera y sabrosa, con sus acompañamientos.",
+            "Clásico plato criollo con trozos de lomo de res salteados al wok con cebolla, tomate y ají amarillo, acompañado de arroz y papas fritas.",
+            "Tiernos trozos de pollo salteados al wok con verduras, servido con arroz blanco y papas fritas.",
+            "Fideos salteados al wok con trozos de carne de res, verduras frescas y salsa de soya.",
+            "Fideos salteados al wok con trozos de pollo, verduras y un toque oriental.",
+            "Arroz frito al estilo oriental con trozos de pollo, huevo revuelto y cebolla china.",
+            "Arroz frito al estilo oriental con trozos de carne, huevo revuelto y cebolla china.",
+            "Arroz frito al estilo oriental con la combinación de carne, pollo, huevo y cebolla china.",
+            "Clásicas salchichas frankfurter picadas y fritas, mezcladas con papas fritas.",
+            "Crujientes alitas de pollo, bañadas en diferentes salsas (ej. BBQ, picante), ideales como piqueo.",
+            "Piezas de pollo empanizadas y fritas estilo broaster, con una cubierta crujiente y jugosas por dentro.",
+            "Masa de maíz rellena de pollo o cerdo, cocida al vapor, un plato tradicional peruano.",
+            "Papa cocida y prensada, rellena de un guiso sazonado de carne, huevo y aceituna, luego frita.",
+            "Causa de papa amarilla prensada, rellena de una mezcla de pollo deshilachado y mayonesa.",
+            "Brochetas de corazón de res marinado, cocinadas a la parrilla, servidas con papa dorada y choclo.",
+            "Una selección variada de piqueos y bocadillos, ideal para compartir y probar un poco de todo."
+    };
+
+    String[] tiposPlatos = {"POLLOS A LA BRASA",
+            "POLLOS A LA BRASA",
+            "POLLOS A LA BRASA",
+            "POLLOS A LA BRASA",
+            "PARRILLAS",
+            "PARRILLAS",
+            "PARRILLAS",
+            "PARRILLAS",
+            "PARRILLAS",
+            "PARRILLAS",
+            "PARRILLAS",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "SALTADOS Y ARROCES CHAUFA",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS",
+            "PIQUEOS Y ENTRADAS"
+    };
+    String[] categorias= {"Pollos a la brasa","Parrillas","Saltados y arroces chaufa","Piqueos y entradas"};
 
     int[] carrito = new int[platos.length];
 
@@ -23,9 +129,23 @@ public class norkys {
 
     public void menuPrincipal() {
         System.out.println("\n--------- BIENVENIDO  A NORKYS -----------");
+        System.out.println(",~.\n" +
+                "         ,-'__ `-,\n" +
+                "        {,-'  `. }              ,')\n" +
+                "       ,( a )   `-.__         ,',')~,\n" +
+                "      <=.) (         `-.__,==' ' ' '}\n" +
+                "        (   )                      /\n" +
+                "         `-'\\   ,                    )\n" +
+                "             |  \\        `~.        /\n" +
+                "             \\   `._        \\      /\n" +
+                "              \\     `._____,'    ,'\n" +
+                "               `-.             ,'\n" +
+                "                  `-._      _,'\n" +
+                "                      `\"'\"");
         if (sesionIniciada){
             System.out.println("Hola "+nombreUsuario);
         }
+        System.out.println("---------------------------------------------");
         System.out.println("Elige alguna de las siguientes opciones");
         System.out.println(" 1) Ver todos los platos");
         System.out.println(" 2) Ver por categorias");
@@ -43,10 +163,10 @@ public class norkys {
                 verCategorías(platos, precios);
                 break;
             case 3:
-                verCostoEnCarrito();
+                verCarrito();
                 break;
             case 4:
-                verificarInicioSesion();
+                verificarInicioSesion(); //ir al metodo
                 break;
             case 5:
                 registrarCuenta();
@@ -59,10 +179,10 @@ public class norkys {
     }
 
     private void verificarInicioSesion() {
-        if(sesionIniciada){
+        if(sesionIniciada){//si la sesion esta iniciada
             System.out.println(nombreUsuario+" tu sesión está activa");
             cerrarSesion();
-        }else {
+        }else { // si la sesion no esta iniciada
             iniciarSesion();
         }
     }
@@ -72,56 +192,51 @@ public class norkys {
         System.out.println(" Se perderán todos los datos ingresados");
         System.out.println(" 1) Si");
         System.out.println(" 2) No");
-        int seleccion=sc.nextInt();
-        sc.nextLine();
+        int seleccion=sc.nextInt(); //pedir al usuario del sistema
+        sc.nextLine(); //evitar error
         switch (seleccion){
             case 1:
-                vaciarCarrito();
-                sesionIniciada = false;
-            default: menuPrincipal();
+                vaciarCarrito(); //de anderson
+                sesionIniciada = false; // poner variable de iniciar sesion en cerrado
+            default: menuPrincipal(); //volver al menu principal
         }
     }
 
-    private void vaciarCarrito() {
-        for (int i = 0; i < carrito.length; i++) {
-            carrito[i]=0;
-        }
-        System.out.println("El carrito ahora esta vacío");
-    }
-
-
+   
 
     public void iniciarSesion() {
-        if (!cuentaRegistrada){
+        if (!cuentaRegistrada){ //si no hay cuenta registrada
             System.out.println("No hay una cuenta registrada");
             registrarCuenta();
             return; //termina el metodo
         }
         System.out.println("-----------------------------");
         System.out.println("INICIAR SESIÓN");
-        if (regresar()){
+        if (regresar()){ //mostrar menu para continuar o registrar
             return;
         }
         sc.nextLine(); // para evitar error
         int intento = 3;
         while (intento > 0) {
             System.out.println("Ingrese su correo:");
-            String correo = sc.nextLine();
+            String correo = sc.nextLine(); //pedir al usuario
             System.out.println("Ingrese su contraseña:");
-            String contra = sc.nextLine();
+            String contra = sc.nextLine(); //pedir al usuario
             if (correo.equals(emailGuardado) && contra.equals(contraseñaGuardada)) {
                 System.out.println("Inicio de sesión exitoso.");
-                sesionIniciada =true;
-                menuPrincipal();
+                sesionIniciada =true; //poner variable de iniciar sesion a iniciado
+                menuPrincipal(); // volver al menu principal
                 return; //termina el metodo
             } else {
-                intento--;
+                intento--; //disminuir en 1 los intentos
                 System.out.println("Correo o contraseña incorrecta. Intentos restantes: " + intento);
             }
         }
         System.out.println("Se agotaron los intentos.");
-        menuPrincipal();
+        menuPrincipal(); //volver al menu principal
     }
+
+  
 
     public boolean regresar(){
         System.out.println(" 1) Continuar");
@@ -257,9 +372,16 @@ public class norkys {
         int seleccion=sc.nextInt();
 
         switch (seleccion){
-            case 0: menuPrincipal(); break;
-            case 1: verPlatos("MENU"); break;
-            case 2: verPlatos("EXTRA"); break;
+            case 0: menuPrincipal();
+            break;
+            case 1: verPlatos("POLLOS A LA BRASA");
+            break;
+            case 2: verPlatos("PARRILLAS");
+            break;
+            case 3: verPlatos("SALTADOS Y ARROCES CHAUFA");
+            break;
+            case 4: verPlatos("PIQUEOS Y ENTRADAS");
+            break;
             default:
                 System.out.println("Opción inválida");
                 menuPrincipal();
@@ -274,7 +396,7 @@ public class norkys {
         System.out.println("----------------------------");
         System.out.println("* Descripción:\n"+descripciones[indice]);
         System.out.println("\n* Tipo: "+tiposPlatos[indice]);
-        System.out.println("* Precio: S/."+precios[indice]);
+        System.out.println("* Precio: S/."+String.format("%.2f", precios[indice]));
         System.out.println("-------------------------------------");
         System.out.println("\n¿Quieres añadir este plato a tu carrito?");
         System.out.println(" 1) Si");
@@ -288,7 +410,7 @@ public class norkys {
         }
     }
 
-    private double verCostoEnCarrito() {
+    private void verCarrito() {
         System.out.println("------------------------------------");
         System.out.println("PRODUCTOS EN SU CARRITO:");
         double total=0.0;
@@ -300,12 +422,24 @@ public class norkys {
             }
         }
         if (total>0){
-            return total;
+            System.out.println("Total a pagar: "+total);
+            System.out.println("-------------------------------------");
+            System.out.println("¿Ir a pagar?");
+            System.out.println(" 1) Si");
+            System.out.println(" 2) No (Regresar al menu principal)");
+
+            int seleccion = sc.nextInt();
+            sc.nextLine();
+
+            switch (seleccion) {
+                case 1: realizarPago(); break;
+                case 2: menuPrincipal(); break;
+                default: System.out.println("Opción inválida"); menuPrincipal(); break;
+            }
         }else{
             System.out.println("Usted aún no añadió platos a su carrito");
             menuPrincipal();
         }
-        return total;
     }
 
 
@@ -381,19 +515,37 @@ public class norkys {
         System.out.println(" MONTO PAGADO   :     S/." + String.format("%.2f", montoPagado));
         System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
         System.out.println("-----------------------------------------");
-        menuPrincipal();
-    }
 
-
-    private void llenarDescripciones() {
-        for (int i = 0; i < descripciones.length; i++) {
-            descripciones[i]="Descripción del plato "+platos[i];
+        vaciarCarrito();
+        System.out.println("¿Terminar el programa?");
+        System.out.println(" 1) NO (Regresar al menu principal)");
+        System.out.println(" 2) SI");
+        int seleccion = sc.nextInt();
+        sc.nextLine();
+        if (seleccion == 1){
+            menuPrincipal();
+        }else{
+            System.out.println("Gracias por usar el programa");
+            System.out.println("Saliendo...");
         }
     }
+    
+    private void vaciarCarrito() {
+        for (int i = 0; i < carrito.length; i++) {
+            carrito[i]=0;
+        }
+        System.out.println("El carrito ahora esta vacío");
+    }
+
+//
+//    private void llenarDescripciones() {
+//        for (int i = 0; i < descripciones.length; i++) {
+//            descripciones[i]="Descripción del plato "+platos[i];
+//        }
+//    }
 
     public static void main(String[] args) {
         norkys comidita = new norkys();
-        comidita.llenarDescripciones();
         comidita.menuPrincipal();
     }
 
