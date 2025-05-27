@@ -272,7 +272,7 @@ public class norkys {
                     vaciarCarrito();
                     sesionIniciada=false;
                     break;
-                    case 2: 
+                    case 2:
                         menuPrincipal();
                         break;
                 default: menuPrincipal();
