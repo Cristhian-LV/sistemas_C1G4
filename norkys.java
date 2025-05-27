@@ -202,7 +202,7 @@ public class norkys {
         }
     }
 
-   
+
 
     public void iniciarSesion() {
         if (!cuentaRegistrada){ //si no hay cuenta registrada
@@ -236,7 +236,7 @@ public class norkys {
         menuPrincipal(); //volver al menu principal
     }
 
-  
+
 
     public boolean regresar(){
         System.out.println(" 1) Continuar");
@@ -424,17 +424,29 @@ public class norkys {
         if (total>0){
             System.out.println("Total a pagar: "+total);
             System.out.println("-------------------------------------");
-            System.out.println("¿Ir a pagar?");
-            System.out.println(" 1) Si");
-            System.out.println(" 2) No (Regresar al menu principal)");
+            System.out.println("¿Que desea hacer?");
+            System.out.println(" 1) Ir a pagar");
+            System.out.println(" 2) Vaciar carrito");
+            System.out.println(" 3) Regresar al menu principal)");
 
             int seleccion = sc.nextInt();
             sc.nextLine();
 
             switch (seleccion) {
-                case 1: realizarPago(); break;
-                case 2: menuPrincipal(); break;
-                default: System.out.println("Opción inválida"); menuPrincipal(); break;
+                case 1: 
+                    realizarPago();
+                    break;
+                case 2: 
+                    vaciarCarrito();
+                    menuPrincipal();
+                    break;
+                case 3: 
+                    menuPrincipal();
+                    break;
+                default: 
+                    System.out.println("Opción inválida");
+                    menuPrincipal();
+                    break;
             }
         }else{
             System.out.println("Usted aún no añadió platos a su carrito");
@@ -529,7 +541,7 @@ public class norkys {
             System.out.println("Saliendo...");
         }
     }
-    
+
     private void vaciarCarrito() {
         for (int i = 0; i < carrito.length; i++) {
             carrito[i]=0;
