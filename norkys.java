@@ -272,12 +272,15 @@ public class norkys {
                     vaciarCarrito();
                     sesionIniciada=false;
                     break;
+                    case 2: 
+                        menuPrincipal();
+                        break;
                 default: menuPrincipal();
             }
             menuPrincipal();
         }else{
             System.out.println("REGISTRAR CUENTA");
-            if (regresar()){
+            if (regresar()){ //este if pide si regresar o no
                 return;
             }
             String email, contra;
@@ -433,17 +436,17 @@ public class norkys {
             sc.nextLine();
 
             switch (seleccion) {
-                case 1: 
+                case 1:
                     realizarPago();
                     break;
-                case 2: 
+                case 2:
                     vaciarCarrito();
                     menuPrincipal();
                     break;
-                case 3: 
+                case 3:
                     menuPrincipal();
                     break;
-                default: 
+                default:
                     System.out.println("Opción inválida");
                     menuPrincipal();
                     break;
