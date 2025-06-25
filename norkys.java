@@ -17,13 +17,13 @@ public class norkys_v3 {
     ArrayList<Integer> carritoCantidad;
 
     ArrayList<String> emails;
-    ArrayList<String> contrase帽as;
+    ArrayList<String> contraseñas;
     ArrayList<String> usuarios;
     ArrayList<String> roles;
 
     String usuarioActual;
 
-    boolean cuentaRegistrada=false;
+    boolean registrarCliente=false;
 
     boolean sesionIniciada =false;
 
@@ -38,10 +38,10 @@ public class norkys_v3 {
         carritoCantidad =new ArrayList<>();
 
         emails=new ArrayList<>(Arrays.asList("","jclv@gmail.com","ama@gmail.com","as@gmail.com"));
-        contrase帽as=new ArrayList<>(Arrays.asList("","1234567jclv@","1234567ama@","1234567as@"));
+        contraseñas=new ArrayList<>(Arrays.asList("","1234567jclv@","1234567ama@","1234567as@"));
         usuarios=new ArrayList<>(Arrays.asList("INVITADO","CRISTHIAN","ANDERSON","ARMANDO"));
         roles=new ArrayList<>(Arrays.asList("CLIENTE","ADMINISTRADOR","VENDEDOR","VENDEDOR"));
-        usuarioActual="CRISTHIAN";
+        usuarioActual="INVITADO";
     }
 
 
@@ -91,7 +91,7 @@ public class norkys_v3 {
                         "                                                         "+"`--'  `--' `---' `--'   `--'`--'.-'  /      `----'  \n" +
                         "                                                         "+"                                `---'               "
         );
-        String iniciar = usuarioActual.equals("Invitado") ? "馃攽 INGRESAR":"馃 "+usuarioActual;
+        String iniciar = usuarioActual.equals("Invitado") ? "🔑 INGRESAR":"🧑 "+usuarioActual;
         System.out.println("____________________________________________________________________________________________________________________________________________________________________");
         System.out.println("\n    a) INICIO         b) CARTA         c) PROMOCIONES                                                                                          d) "+iniciar.toUpperCase());
         System.out.println("\n"+RESET);
@@ -110,7 +110,7 @@ public class norkys_v3 {
                 System.out.println("Promociones");
                 break;
             case "d":
-                if (usuarioActual.equals("Invitado")){
+                if (usuarioActual.equals("INVITADO")){
                     iniciarSesion();
                 }else ajustesCuenta();
                 break;
@@ -123,13 +123,13 @@ public class norkys_v3 {
         String email=emails.get(usuarios.indexOf(usuarioActual));
         String rol=roles.get(usuarios.indexOf(usuarioActual));
         System.out.println("-----------------------------------------\n" +
-                "Informaci贸n Personal:"+
+                "Información Personal:"+
                 "\n  * Usuario  : "+ usuarioActual+
                 "\n  * E-mail   : "+ email+
                 "\n  * Rol      : "+ rol+
                 "\n-----------------------------------------");
-        System.out.println(" 1) 鉁� Editar");
-        System.out.println(" 2) 馃攼 Cerrar sesi贸n");
+        System.out.println(" 1) ✏ Editar");
+        System.out.println(" 2) 🔐 Cerrar sesión");
         String seleccion=sc.nextLine();
         opciones_Superior(seleccion);
         switch (seleccion){
@@ -141,7 +141,7 @@ public class norkys_v3 {
                 cerrarSesion();
                 break;
             default:
-                System.out.println("Opci贸n inv谩lida");
+                System.out.println("Opción inválida");
                 menuPrincipal();
         }
     }
@@ -160,8 +160,8 @@ public class norkys_v3 {
             menuPrincipal();
             return;
         }
-        System.out.println("驴Cerrar sesi贸n?");
-        System.out.println(" Se vaciar谩 el carrito");
+        System.out.println("¿Cerrar sesión?");
+        System.out.println(" Se vaciará el carrito");
         System.out.println(" 1) Si");
         System.out.println(" 2) No");
         String seleccion=sc.nextLine(); //pedir al usuario del sistema
@@ -176,27 +176,33 @@ public class norkys_v3 {
 
     public void iniciarSesion() {
         menu_Superior();
-        System.out.println("INICIAR SESI脫N");
+        System.out.println("INICIAR SESIÓN");
+        System.out.println("¿Es usuario nuevo?");
+        System.out.println(" e) Registrar cuenta");
 
         int intentos = 3;
         while (intentos > 0) {
             System.out.println("Ingrese su correo:");
             String correo = sc.nextLine(); //pedir al usuario
             opciones_Superior(correo);
-            if (emails.contains(correo)){
-                String contrase帽aGuardada=contrase帽as.get(emails.indexOf(correo));
-                System.out.println("Ingrese su contrase帽a:");
-                String contrase帽a = sc.nextLine(); //pedir al usuario
-                opciones_Superior(contrase帽a);
-                if (contrase帽a.equals(contrase帽aGuardada)) {
+            if (correo.equalsIgnoreCase("e")){
+                menu_Superior();
+                registrar_Empleado();
+            }
+            else if (emails.contains(correo)){
+                String contraseñaGuardada=contraseñas.get(emails.indexOf(correo));
+                System.out.println("Ingrese su contraseña:");
+                String contraseña = sc.nextLine(); //pedir al usuario
+                opciones_Superior(contraseña);
+                if (contraseña.equals(contraseñaGuardada)) {
                     sesionIniciada =true; //poner variable de iniciar sesion a iniciado
                     usuarioActual=usuarios.get(emails.indexOf(correo));
-                    System.out.println("Inicio de sesi贸n exitoso.");
+                    System.out.println("Inicio de sesión exitoso.");
                     menuPrincipal(); // volver al menu principal
                     return; //termina el metodo
                 } else {
                     intentos--; //disminuir en 1 los intentos
-                    System.out.println("Correo o contrase帽a incorrecta. Intentos restantes: " + intentos);
+                    System.out.println("Correo o contraseña incorrecta. Intentos restantes: " + intentos);
                 }
             }else {
                 intentos--;
@@ -242,7 +248,7 @@ public class norkys_v3 {
             case "8": mostrarEmleados();
                 break;
             default:
-                System.out.println("Opcion inv谩lida del Admin");
+                System.out.println("Opcion inválida del Admin");
         }
         menuPrincipal();
     }
@@ -256,12 +262,12 @@ public class norkys_v3 {
         System.out.println("Ingrese el precio del producto:");
         Double precio=sc.nextDouble();
         sc.nextLine();
-        System.out.println("Ingrese la descripci贸n del producto:");
+        System.out.println("Ingrese la descripción del producto:");
         String descripcion=sc.nextLine();
         System.out.println("Ingrese el stock del producto:");
         int stock=sc.nextInt();
         sc.nextLine();
-        System.out.println("Ingrese la categor铆a del producto:");
+        System.out.println("Ingrese la categoría del producto:");
         String categoria=sc.nextLine().toUpperCase();
 
         platos.add(nombre);
@@ -288,12 +294,12 @@ public class norkys_v3 {
             System.out.println("Ingrese el nuevo precio:");
             double precioNuevo=sc.nextDouble();
             sc.nextLine();
-            System.out.println("Ingrese la nueva descripci贸n:");
+            System.out.println("Ingrese la nueva descripción:");
             String descripcion=sc.nextLine();
             System.out.println("Ingrese el nuevo stock:");
             int stock=sc.nextInt();
             sc.nextLine();
-            System.out.println("Ingrese la nueva categor铆a:");
+            System.out.println("Ingrese la nueva categoría:");
             String categoria=sc.nextLine();
 
             platos.set(indice,nombreNuevo);
@@ -303,7 +309,7 @@ public class norkys_v3 {
             tiposPlatos.set(indice, categoria);
             System.out.println("Producto modificado!");
         }else{
-            System.out.println("No se encontr贸 el producto");
+            System.out.println("No se encontró el producto");
         }
         System.out.println("---------------------------------");
     }
@@ -323,7 +329,7 @@ public class norkys_v3 {
             tiposPlatos.remove(indice);
             System.out.println("Producto eliminado!");
         }else{
-            System.out.println("No se encontr贸 el producto");
+            System.out.println("No se encontró el producto");
         }
         System.out.println("---------------------------------");
     }
@@ -365,9 +371,9 @@ public class norkys_v3 {
         return Pattern.compile(regex).matcher(email).matches();
     }
 
-    private boolean validarContrase帽a(String contrase帽a) {
+    private boolean validarContraseña(String contraseña) {
         String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-        return Pattern.compile(regex).matcher(contrase帽a).matches();
+        return Pattern.compile(regex).matcher(contraseña).matches();
     }
 
     private String pedirCorreo() {
@@ -376,21 +382,21 @@ public class norkys_v3 {
             System.out.println("Ingrese el correo del empleado:");
             correo=sc.nextLine();
             if (!validarCorreo(correo)) {
-                System.out.println("Correo inv谩lido.");
+                System.out.println("Correo inválido.");
             }
         } while (!validarCorreo(correo));
         return correo;
     }
-    private String pedirContrase帽a() {
-        String contrase帽a;
+    private String pedirContraseña() {
+        String contraseña;
         do {
-            System.out.println("Ingrese la contrase帽a del empleado:");
-            contrase帽a=sc.nextLine();
-            if (!validarContrase帽a(contrase帽a)) {
-                System.out.println("Contrase帽a inv谩lida. Debe tener al menos 8 caracteres, incluir letras, n煤meros y un car谩cter especial.");
+            System.out.println("Ingrese la contraseña del empleado:");
+            contraseña=sc.nextLine();
+            if (!validarContraseña(contraseña)) {
+                System.out.println("Contraseña inválida. Debe tener al menos 8 caracteres, incluir letras, números y un carácter especial.");
             }
-        } while (!validarContrase帽a(contrase帽a));
-        return contrase帽a;
+        } while (!validarContraseña(contraseña));
+        return contraseña;
     }
     private String pedirNombreUsuario() {
         String usuario;
@@ -398,7 +404,7 @@ public class norkys_v3 {
             System.out.println("Ingrese el nombre de usuario del empleado");
             usuario=sc.nextLine().toUpperCase();
             if (usuarios.contains(usuario)){
-                System.out.println("El nombre de usuario ya est谩 en uso");
+                System.out.println("El nombre de usuario ya está en uso");
             }
         }while (usuarios.contains(usuario));
         return usuario;
@@ -414,24 +420,25 @@ public class norkys_v3 {
                 case "1": rol="ADMINISTRADOR"; break;
                 case "2": rol="VENDEDOR"; break;
                 default: rol="";
-                    System.out.println("Opci贸n no v谩lida");
+                    System.out.println("Opción no válida");
             }
         }while (rol.equals(""));
         return rol;
     }
 
     private void registrar_Empleado(){
+        System.out.println("REGISTRAR EMPLEADO:");
         String correo = pedirCorreo();
-        String contrase帽a = pedirContrase帽a();
+        String contraseña = pedirContraseña();
         String usuario = pedirNombreUsuario();
         String rol = pedirRol();
 
         emails.add(correo);
-        contrase帽as.add(contrase帽a);
+        contraseñas.add(contraseña);
         usuarios.add(usuario);
         roles.add(rol);
 
-        System.out.println("\nCuenta registrada con 茅xito.");
+        System.out.println("\nCuenta registrada con éxito.");
     }
 
     private void modificarEmpleadoNombre() {
@@ -481,7 +488,7 @@ public class norkys_v3 {
                 "\n   1) Usuario     : "+ usuarios.get(indice)+
                 "\n   2) E-mail      : "+ emails.get(indice)+
                 "\n   3) Rol         : "+ roles.get(indice)+
-                "\n   4) Contrase帽a  : "+ contrase帽as.get(indice).substring(0,4)+"*********"+
+                "\n   4) Contraseña  : "+ contraseñas.get(indice).substring(0,4)+"*********"+
                 "\n-----------------------------------------");
         String rolActual = roles.get(usuarios.indexOf(usuarioActual));
         if (rolActual.equals("ADMINISTRADOR")){
@@ -498,7 +505,7 @@ public class norkys_v3 {
                 break;
             case "3": roles.set(indice,pedirRol());
                 break;
-            case "4": contrase帽as.set(indice,pedirContrase帽a());
+            case "4": contraseñas.set(indice,pedirContraseña());
                 break;
         }
         if (rolActual.equals("ADMINISTRADOR")){
@@ -514,15 +521,15 @@ public class norkys_v3 {
 
     private void eliminarEmpleado(String usuario){
         int indice=usuarios.indexOf(usuario);
-        System.out.println("驴Est谩s seguro de eliminar al empleado "+usuario+"?");
+        System.out.println("¿Estás seguro de eliminar al empleado "+usuario+"?");
         System.out.println("1) Si");
         System.out.println("2) Cancelar");
-        String selecci贸n=sc.nextLine();
-        switch (selecci贸n){
+        String selección=sc.nextLine();
+        switch (selección){
             case "1":
                 usuarios.remove(indice);
                 emails.remove(indice);
-                contrase帽as.remove(indice);
+                contraseñas.remove(indice);
                 roles.remove(indice);
                 break;
             case "2":
@@ -534,26 +541,251 @@ public class norkys_v3 {
 
     public void menu_Cliente() {
 
-        System.out.println("soy cliente");
-        System.out.println("    驴Como prefieres pedir?                                                                                 e) DELIVERY          f)RECOJO EN TIENDA");
-
-        System.out.println("    EXPLORA NUESTRO MEN脷");
-        for (int i=0; i<categorias.size();i++){
-            System.out.println(""+categorias.get(i));
-        }
+        System.out.println("\n---------------- CLIENTE -----------------");
+        System.out.println(" 1) Ver todos los platos");
+        System.out.println(" 2) Ver por categorias");
+        System.out.println(" 3) Ver carrito");
     }
 
     public void opciones_Cliente(String seleccion) {
+
         switch (seleccion){
-            case "1":
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
-            case "4":
-                break;
+            case "1": verPlatos("");
+            break;
+            case "2": verCategorías();
+            break;
+            case "3": verCarrito();
+            break;
             default:
+        }
+
+    }
+
+
+    public void verPlatos(String categoria) {
+        System.out.println("------------ "+categoria+" ------------");
+        System.out.println("0) Regresar al menú principal");
+        System.out.println("---------------------------------");
+
+        Integer[] indices=new Integer[platos.size()];
+        int contador=0;
+        if (categoria.equals("")){
+            for (int i = 0; i < platos.size(); i++) {
+                System.out.println((i+1) + ") ("+ tiposPlatos.get(i)+") - "+ platos.get(i) +" - Precio: S/." + precios.get(i));
+                indices[contador]=i;
+                contador++;
+            }
+        }else{
+            for (int i = 0; i < platos.size(); i++) {
+                if (tiposPlatos.get(i).toUpperCase().equals(categoria.toUpperCase())){
+                    System.out.println((contador+1) + ") " + platos.get(i) + " - Precio: S/." + precios.get(i));
+                    indices[contador]=i;
+                    contador++;
+                }
+            }
+        }
+
+        int seleccion = sc.nextInt();
+        sc.nextLine();
+
+        if (seleccion==0){
+            menuPrincipal();
+        }else if (seleccion >= 1 && seleccion <= contador) {
+            int indice=indices[seleccion-1];
+            mostrarDesripcion(indice, categoria);
+        } else {
+            System.out.println("Opción inválida");
+            menuPrincipal();
+        }
+    }
+
+    private void verCategorías() {
+        System.out.println("--------- CATEGORÍAS ---------");
+        System.out.println("0) Regresar al menú principal");
+        System.out.println("------------------------------");
+        for (int i = 0; i < categorias.size(); i++) {
+            System.out.println((i+1)+") "+categorias.get(i));
+        }
+
+        int seleccion = sc.nextInt();
+
+        if (seleccion<=0){
+            menuPrincipal();
+        } else if (seleccion>categorias.size()) {
+            System.out.println("Opción inválida");
+            menuPrincipal();
+        } else {
+            verPlatos(categorias.get(seleccion-1).toUpperCase());
+        }
+    }
+
+
+    private void mostrarDesripcion(int indice, String categoria) {
+        System.out.println("-------------------------------------");
+        System.out.println(platos.get(indice).toUpperCase()+":");
+        System.out.println("----------------------------");
+        System.out.println("* Descripción:\n"+descripciones.get(indice));
+        System.out.println("\n* Tipo: "+tiposPlatos.get(indice));
+        System.out.println("* Precio: S/."+String.format("%.2f", precios.get(indice)));
+        System.out.println("-------------------------------------");
+        System.out.println("\n¿Quieres añadir este plato a tu carrito?");
+        System.out.println(" 1) Si");
+        System.out.println(" 2) Regresar");
+        int seleccion=sc.nextInt();
+        sc.nextLine();
+        switch (seleccion){
+            case 1: añadirAlCarrito(indice, categoria);
+                break;
+            default: verPlatos(categoria);
+        }
+    }
+
+    private void verCarrito() {
+        System.out.println("------------------------------------");
+        System.out.println("PRODUCTOS EN SU CARRITO:");
+        double total=0.0;
+        for (int i = 0; i < carritoCantidad.size(); i++) {
+            if (carritoCantidad.get(i)!=0){
+                double subtotal= carritoCantidad.get(i)*precios.get(i);
+                System.out.println("* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+" Subotal: S/."+ subtotal);
+                total+=subtotal;
+            }
+        }
+        if (total>0){
+            System.out.println("Total a pagar: "+total);
+            System.out.println("-------------------------------------");
+            System.out.println("¿Que desea hacer?");
+            System.out.println(" 1) Ir a pagar");
+            System.out.println(" 2) Vaciar carrito");
+            System.out.println(" 3) Regresar al menu principal)");
+
+            int seleccion = sc.nextInt();
+            sc.nextLine();
+
+            switch (seleccion) {
+                case 1:
+                    realizarPago();
+                    break;
+                case 2:
+                    carritoIndice.clear();
+                    carritoCantidad.clear();
+                    menuPrincipal();
+                    break;
+                case 3:
+                    menuPrincipal();
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+                    menuPrincipal();
+                    break;
+            }
+        }else{
+            System.out.println("Usted aún no añadió platos a su carrito");
+            menuPrincipal();
+        }
+    }
+
+
+    private void añadirAlCarrito(int indice, String categoria) {
+
+        if (!sesionIniciada){
+            iniciarSesion();
+            return;// termina el metodo
+        }
+
+        System.out.println("¿Cuántos platos de " + platos.get(indice) + " añadirá a su carrito?");
+        int cantidad = sc.nextInt();
+        if (cantidad<=0){
+            System.out.println("Cantidad inválida");
+            return; //termina el metodo
+        }
+        carritoCantidad.set(indice,carritoCantidad.get(indice)+cantidad);
+
+        System.out.println("Ud ha pedido " + carritoCantidad.get(indice) + " platos de " + platos.get(indice));
+        System.out.println("-------------------------------------");
+        System.out.println("¿Qué desea hacer ahora?");
+        System.out.println(" 1) Elejir otro plato");
+        System.out.println(" 2) Ir a pagar ");
+        System.out.println(" 3) Volver al menu principal");
+
+        int seleccion = sc.nextInt();
+        sc.nextLine();
+
+        switch (seleccion) {
+            case 1: verPlatos(categoria); break;
+            case 2: realizarPago(); break;
+            case 3: menuPrincipal(); break;
+            default: System.out.println("Opción inválida"); menuPrincipal(); break;
+        }
+    }
+
+    public void realizarPago() {
+        double costoTotal = 0.00;
+        System.out.println("----------- DETALLE DE SU COMPRA -----------");
+        for (int i = 0; i < carritoCantidad.size(); i++) {
+            if (carritoCantidad.get(i) > 0) {
+                double subtotalProducto = carritoCantidad.get(i) * precios.get(i);
+                costoTotal += subtotalProducto;
+            }
+        }
+
+        double igv = costoTotal * 0.18;
+        double subtotal = costoTotal - igv;
+
+        double montoPagado;
+        do {
+            System.out.println("TOTAL A PAGAR: S/." + String.format("%.2f", costoTotal));
+            System.out.println("Ingrese el monto con el que va a pagar:");
+            montoPagado = sc.nextDouble();
+            sc.nextLine();
+            if (montoPagado < costoTotal) {
+                System.out.println("Monto insuficiente");
+            }
+        } while (montoPagado < costoTotal);
+
+        System.out.println("¡Compra exitosa!");
+        double vuelto = montoPagado - costoTotal;
+
+        generarBoleta(subtotal, igv, costoTotal, montoPagado, vuelto);
+    }
+
+
+    private void generarBoleta(double subtotal, double igv, double costoTotal, double montoPagado, double vuelto) {
+
+        verDetalleCompra();
+        System.out.println("------------ BOLETA DE VENTA ------------");
+        System.out.println(" SUBTOTAL       :     S/." + String.format("%.2f", subtotal));
+        System.out.println(" IGV (18%)      :     S/." + String.format("%.2f", igv));
+        System.out.println(" TOTAL A PAGAR  :     S/." + String.format("%.2f", costoTotal));
+        System.out.println(" MONTO PAGADO   :     S/." + String.format("%.2f", montoPagado));
+        System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
+        System.out.println("-----------------------------------------");
+
+        carritoIndice.clear();
+        carritoCantidad.clear();
+        System.out.println("¿Terminar el programa?");
+        System.out.println(" 1) NO (Regresar al menu principal)");
+        System.out.println(" 2) SI");
+        int seleccion = sc.nextInt();
+        sc.nextLine();
+        if (seleccion == 1){
+            menuPrincipal();
+        }else{
+            System.out.println("Gracias por usar el programa");
+            System.out.println("Saliendo...");
+        }
+    }
+
+    private void verDetalleCompra() {
+        System.out.println("------------------------------------");
+        System.out.println("PRODUCTOS EN SU CARRITO:");
+        double total=0.0;
+        for (int i = 0; i < carritoCantidad.size(); i++) {
+            if (carritoCantidad.get(i)!=0){
+                double subtotal= carritoCantidad.get(i)*precios.get(i);
+                System.out.println("* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+" Subotal: S/."+ subtotal);
+                total+=subtotal;
+            }
         }
     }
 
@@ -578,81 +810,5 @@ public class norkys_v3 {
         }
     }
 
-
-    // OTROS --------------------------------------------------------------------------------------------------------------------------------------------------------------
-    private String formatoTexto(String texto, String estilo, String f, String b) {
-        //estilo de texto ASCII https://patorjk.com/software/taag/#p=display&v=1&f=Standard&t=Norky's
-        final String RESET = "\u001B[0m";
-        final String NEGRITA = "\u001B[1m";
-        final String SUBRAYADO = "\u001B[1m";
-        final String INVERTIR = "\u001B[1m";
-        final String NO_NEGRITA = "\u001B[1m";
-        final String NO_SUBRAYADO = "\u001B[1m";
-        final String NO_INVERTIR = "\u001B[1m";
-
-        final String TEXTO_negro = "\u001B[30m";
-        final String TEXTO_rojo = "\u001B[31m";
-        final String TEXTO_verde = "\u001B[32m";
-        final String TEXTO_amarillo = "\u001B[33m";
-        final String TEXTO_azul = "\u001B[34m";
-        final String TEXTO_magenta = "\u001B[35m";
-        final String TEXTO_cyan = "\u001B[36m";
-        final String TEXTO_blanco = "\u001B[37m";
-
-        final String FONDO_negro = "\u001B[40m";
-        final String FONDO_rojo = "\u001B[41m";
-        final String FONDO_verde = "\u001B[42m";
-        final String FONDO_amarillo = "\u001B[43m";
-        final String FONDO_azul = "\u001B[44m";
-        final String FONDO_magenta = "\u001B[45m";
-        final String FONDO_cyan = "\u001B[46m";
-        final String FONDO_blanco = "\u001B[47m";
-
-        switch (estilo){
-            case "negrita":texto=NEGRITA+texto;
-                break;
-            default:
-        }
-        switch (f){
-            case "negro": texto=TEXTO_negro+texto;
-                break;
-            case "rojo": texto=TEXTO_rojo+texto;
-                break;
-            case "verde": texto=TEXTO_verde+texto;
-                break;
-            case "amarillo": texto=TEXTO_amarillo+texto;
-                break;
-            case "azul": texto=TEXTO_azul+texto;
-                break;
-            case "magenta": texto=TEXTO_magenta+texto;
-                break;
-            case "cyan": texto=TEXTO_cyan+texto;
-                break;
-            case "blanco": texto=TEXTO_blanco+texto;
-                break;
-            default:
-        }
-        switch (b){
-            case "negro": texto=FONDO_negro+texto;
-                break;
-            case "rojo": texto=FONDO_rojo+texto;
-                break;
-            case "verde": texto=FONDO_verde+texto;
-                break;
-            case "amarillo": texto=FONDO_amarillo+texto;
-                break;
-            case "azul": texto=FONDO_azul+texto;
-                break;
-            case "magenta": texto=FONDO_magenta+texto;
-                break;
-            case "cyan": texto=FONDO_cyan+texto;
-                break;
-            case "blanco": texto=FONDO_blanco+texto;
-                break;
-            default:
-        }
-        return (texto+RESET);
-
-    }
 }
 
