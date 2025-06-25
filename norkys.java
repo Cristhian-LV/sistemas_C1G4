@@ -37,11 +37,11 @@ public class norkys_v3 {
         carritoIndice =new ArrayList<>();
         carritoCantidad =new ArrayList<>();
 
-        emails=new ArrayList<>(Arrays.asList("","jclv@gmail.com","ama@gmail.com","as@gmail.com"));
-        contraseñas=new ArrayList<>(Arrays.asList("","1234567jclv@","1234567ama@","1234567as@"));
+        emails=new ArrayList<>(Arrays.asList("","jclv@gmail.com","1@gmail.com","2@gmail.com"));
+        contraseñas=new ArrayList<>(Arrays.asList("","1234567q@","1234567q@","1234567q@"));
         usuarios=new ArrayList<>(Arrays.asList("INVITADO","CRISTHIAN","ANDERSON","ARMANDO"));
         roles=new ArrayList<>(Arrays.asList("CLIENTE","ADMINISTRADOR","VENDEDOR","VENDEDOR"));
-        usuarioActual="INVITADO";
+        usuarioActual="CRISTHIAN";
     }
 
 
@@ -149,7 +149,7 @@ public class norkys_v3 {
     private void cerrarSesion() {
         String rol=roles.get(usuarios.indexOf(usuarioActual));
         if (rol.equalsIgnoreCase("Administrador")){
-            usuarioActual="Invitado";
+            usuarioActual="INVITADO";
             System.out.println("Sesion cerrada");
             menuPrincipal();
             return;
@@ -554,8 +554,6 @@ public class norkys_v3 {
             break;
             case "2": verCategorías();
             break;
-            case "3": verCarrito();
-            break;
             default:
         }
 
@@ -637,6 +635,28 @@ public class norkys_v3 {
             case 1: añadirAlCarrito(indice, categoria);
                 break;
             default: verPlatos(categoria);
+        }
+    }
+
+
+    // VENDEDOR----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public void menu_Vendedor() {
+        System.out.println("\n---------------- VENDEDOR -----------------");
+        System.out.println(" 1) Ver todos los platos");
+        System.out.println(" 2) Ver por categorias");
+        System.out.println(" 3) Ver carrito");
+    }
+
+    public void opciones_Vendedor(String seleccion) {
+        switch (seleccion){
+            case "1": verPlatos("");
+                break;
+            case "2": verCategorías();
+                break;
+            case "3": verCarrito();
+                break;
+            default:
         }
     }
 
@@ -789,26 +809,6 @@ public class norkys_v3 {
         }
     }
 
-
-    // VENDEDOR----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    public void menu_Vendedor() {
-        System.out.println("Soy vendedor");
-    }
-
-    public void opciones_Vendedor(String seleccion) {
-        switch (seleccion){
-            case "a":
-                break;
-            case "b":
-                break;
-            case "c":
-                break;
-            case "d":
-                break;
-            default:
-        }
-    }
 
 }
 
