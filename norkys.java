@@ -13,7 +13,6 @@ public class norkys_v3 {
     ArrayList<Integer> stocks;
     ArrayList<String> tiposPlatos;
     ArrayList<String> categorias;
-    ArrayList<Integer> carritoIndice;
     ArrayList<Integer> carritoCantidad;
 
     ArrayList<String> emails;
@@ -23,25 +22,28 @@ public class norkys_v3 {
 
     String usuarioActual;
 
+    int numeroPedido=1;
     boolean registrarCliente=false;
 
-    boolean sesionIniciada =false;
+    boolean sesionIniciada =true;
 
     private void cargarDatos() {
         platos=new ArrayList<>(Arrays.asList("PLATO 1","PLATO 2","PLATO 3","PLATO 4"));
         precios=new ArrayList<>(Arrays.asList(10.00,20.00,30.00,40.00));
         descripciones=new ArrayList<>(Arrays.asList("descripcion 1","descripcion 2","Descripcion 3","descripcion 4"));
         stocks=new ArrayList<>(Arrays.asList(5,5,4,3));
-        tiposPlatos=new ArrayList<>(Arrays.asList("TIPO 1","TIPO 1","TIPO 2","TIPO 2"));
+        tiposPlatos=new ArrayList<>(Arrays.asList("TIPO 1","TIPO 1","TIPO 2","PROMO"));
         categorias=new ArrayList<>(Arrays.asList("TIPO 1","TIPO 2"));
-        carritoIndice =new ArrayList<>();
         carritoCantidad =new ArrayList<>();
+        for (int i = 0; i < platos.size(); i++) {
+            carritoCantidad.add(0);
+        }
 
         emails=new ArrayList<>(Arrays.asList("","jclv@gmail.com","1@gmail.com","2@gmail.com"));
         contraseñas=new ArrayList<>(Arrays.asList("","1234567q@","1234567q@","1234567q@"));
         usuarios=new ArrayList<>(Arrays.asList("INVITADO","CRISTHIAN","ANDERSON","ARMANDO"));
-        roles=new ArrayList<>(Arrays.asList("CLIENTE","ADMINISTRADOR","VENDEDOR","VENDEDOR"));
-        usuarioActual="CRISTHIAN";
+        roles=new ArrayList<>(Arrays.asList("CLIENTE","ADMINISTRADOR","CLIENTE","VENDEDOR"));
+        usuarioActual="ARMANDO";
     }
 
 
@@ -62,7 +64,7 @@ public class norkys_v3 {
             case "VENDEDOR": menu_Vendedor();
                 break;
         }
-        String seleccion=sc.nextLine();
+        String seleccion=sc.nextLine().toUpperCase();
         opciones_Superior(seleccion);
         switch (rolActual){
             case "CLIENTE": opciones_Cliente(seleccion);
@@ -84,7 +86,7 @@ public class norkys_v3 {
 
         System.out.println(NEGRITA + FONDO_negro + TEXTO_verde +"\n");
         System.out.println(
-                        "                                                         "+",--.  ,--.              ,--.             ,--.       \n" +
+                "                                                         "+",--.  ,--.              ,--.             ,--.       \n" +
                         "                                                         "+"|  ,'.|  | ,---. ,--.--.|  |,-. ,--. ,--.|  |,---.  \n" +
                         "                                                         "+"|  |' '  || .-. ||  .--'|     /  \\  '  / `-'(  .-'  \n" +
                         "                                                         "+"|  | `   |' '-' '|  |   |  \\  \\   \\   '     .-'  `) \n" +
@@ -99,17 +101,19 @@ public class norkys_v3 {
 
     public void opciones_Superior(String seleccion) {
         switch (seleccion){
-            case "a":
+            case "A":
                 menuPrincipal();
                 System.out.println("Menu principal");
                 break;
-            case "b":
-                System.out.println("Ver menu");
+            case "B":
+                System.out.println("Ver carta");
+                mostrarProductos("");
                 break;
-            case "c":
+            case "C":
                 System.out.println("Promociones");
+                mostrarProductos("PROMO");
                 break;
-            case "d":
+            case "D":
                 if (usuarioActual.equals("INVITADO")){
                     iniciarSesion();
                 }else ajustesCuenta();
@@ -154,7 +158,7 @@ public class norkys_v3 {
             menuPrincipal();
             return;
         }
-        if (carritoIndice.isEmpty()){
+        if (carritoCantidad.isEmpty()){
             usuarioActual="Invitado";
             System.out.println("Sesion cerrada");
             menuPrincipal();
@@ -167,7 +171,6 @@ public class norkys_v3 {
         String seleccion=sc.nextLine(); //pedir al usuario del sistema
         switch (seleccion){
             case "1":
-                carritoIndice.clear();
                 carritoCantidad.clear();
                 usuarioActual="Invitado"; // poner variable de iniciar sesion en cerrado
             default: menuPrincipal(); //volver al menu principal
@@ -238,7 +241,7 @@ public class norkys_v3 {
                 break;
             case "4": mostrarProductos("");
                 break;
-                //--------------------------------------
+            //--------------------------------------
             case "5": registrar_Empleado();
                 break;
             case "6": modificarEmpleadoNombre();
@@ -354,12 +357,21 @@ public class norkys_v3 {
                 }
             }
         }
+        if (contador==0){
+            System.out.println("No hay productos a mostrar");
+            menuPrincipal();
+            return; //termina el método
+        }
         System.out.println("Selecciona el producto para ver");
         String seleccion = sc.nextLine();
         try{
-            int opcion=Integer.parseInt(seleccion);
-            String empleado=usuarios.get(opcion);
-            modificarEmpleado(empleado);
+            int opcion= indices.get(Integer.parseInt(seleccion)-1);
+            if (opcion >= 0 && opcion < platos.size()) {
+                mostrarDesripcion(opcion, categoria);
+            } else {
+                System.out.println("Opción inválida");
+                menuPrincipal();
+            }
         }catch (Exception e){
             opciones_Superior(seleccion);
         }
@@ -550,52 +562,17 @@ public class norkys_v3 {
     public void opciones_Cliente(String seleccion) {
 
         switch (seleccion){
-            case "1": verPlatos("");
-            break;
+            case "1": mostrarProductos("");
+                break;
             case "2": verCategorías();
-            break;
+                break;
             default:
         }
 
     }
 
 
-    public void verPlatos(String categoria) {
-        System.out.println("------------ "+categoria+" ------------");
-        System.out.println("0) Regresar al menú principal");
-        System.out.println("---------------------------------");
-
-        Integer[] indices=new Integer[platos.size()];
-        int contador=0;
-        if (categoria.equals("")){
-            for (int i = 0; i < platos.size(); i++) {
-                System.out.println((i+1) + ") ("+ tiposPlatos.get(i)+") - "+ platos.get(i) +" - Precio: S/." + precios.get(i));
-                indices[contador]=i;
-                contador++;
-            }
-        }else{
-            for (int i = 0; i < platos.size(); i++) {
-                if (tiposPlatos.get(i).toUpperCase().equals(categoria.toUpperCase())){
-                    System.out.println((contador+1) + ") " + platos.get(i) + " - Precio: S/." + precios.get(i));
-                    indices[contador]=i;
-                    contador++;
-                }
-            }
-        }
-
-        int seleccion = sc.nextInt();
-        sc.nextLine();
-
-        if (seleccion==0){
-            menuPrincipal();
-        }else if (seleccion >= 1 && seleccion <= contador) {
-            int indice=indices[seleccion-1];
-            mostrarDesripcion(indice, categoria);
-        } else {
-            System.out.println("Opción inválida");
-            menuPrincipal();
-        }
-    }
+    // Ver Mostrar Productos
 
     private void verCategorías() {
         System.out.println("--------- CATEGORÍAS ---------");
@@ -613,7 +590,7 @@ public class norkys_v3 {
             System.out.println("Opción inválida");
             menuPrincipal();
         } else {
-            verPlatos(categorias.get(seleccion-1).toUpperCase());
+            mostrarProductos(categorias.get(seleccion-1).toUpperCase());
         }
     }
 
@@ -634,7 +611,7 @@ public class norkys_v3 {
         switch (seleccion){
             case 1: añadirAlCarrito(indice, categoria);
                 break;
-            default: verPlatos(categoria);
+            default: mostrarProductos(categoria);
         }
     }
 
@@ -650,7 +627,7 @@ public class norkys_v3 {
 
     public void opciones_Vendedor(String seleccion) {
         switch (seleccion){
-            case "1": verPlatos("");
+            case "1": mostrarProductos("");
                 break;
             case "2": verCategorías();
                 break;
@@ -662,7 +639,8 @@ public class norkys_v3 {
 
     private void verCarrito() {
         System.out.println("------------------------------------");
-        System.out.println("PRODUCTOS EN SU CARRITO:");
+        System.out.println("DETALLE:");
+
         double total=0.0;
         for (int i = 0; i < carritoCantidad.size(); i++) {
             if (carritoCantidad.get(i)!=0){
@@ -687,7 +665,6 @@ public class norkys_v3 {
                     realizarPago();
                     break;
                 case 2:
-                    carritoIndice.clear();
                     carritoCantidad.clear();
                     menuPrincipal();
                     break;
@@ -715,6 +692,7 @@ public class norkys_v3 {
 
         System.out.println("¿Cuántos platos de " + platos.get(indice) + " añadirá a su carrito?");
         int cantidad = sc.nextInt();
+        sc.nextLine();
         if (cantidad<=0){
             System.out.println("Cantidad inválida");
             return; //termina el metodo
@@ -732,7 +710,7 @@ public class norkys_v3 {
         sc.nextLine();
 
         switch (seleccion) {
-            case 1: verPlatos(categoria); break;
+            case 1: mostrarProductos(categoria); break;
             case 2: realizarPago(); break;
             case 3: menuPrincipal(); break;
             default: System.out.println("Opción inválida"); menuPrincipal(); break;
@@ -773,7 +751,7 @@ public class norkys_v3 {
     private void generarBoleta(double subtotal, double igv, double costoTotal, double montoPagado, double vuelto) {
 
         verDetalleCompra();
-        System.out.println("------------ BOLETA DE VENTA ------------");
+        System.out.println("\n-----------------------------------------");
         System.out.println(" SUBTOTAL       :     S/." + String.format("%.2f", subtotal));
         System.out.println(" IGV (18%)      :     S/." + String.format("%.2f", igv));
         System.out.println(" TOTAL A PAGAR  :     S/." + String.format("%.2f", costoTotal));
@@ -781,7 +759,6 @@ public class norkys_v3 {
         System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
         System.out.println("-----------------------------------------");
 
-        carritoIndice.clear();
         carritoCantidad.clear();
         System.out.println("¿Terminar el programa?");
         System.out.println(" 1) NO (Regresar al menu principal)");
@@ -797,13 +774,18 @@ public class norkys_v3 {
     }
 
     private void verDetalleCompra() {
-        System.out.println("------------------------------------");
-        System.out.println("PRODUCTOS EN SU CARRITO:");
+        System.out.println("-----------------------------------------");
+        System.out.println("                 NORKYS");
+        System.out.println("           Real Plaza Juliaca");
+        System.out.println("                PEDIDO: "+numeroPedido);
+        System.out.println(" Recepción: "+usuarioActual);
+        System.out.println(" Pedido:"+numeroPedido);
+        System.out.println("");
         double total=0.0;
         for (int i = 0; i < carritoCantidad.size(); i++) {
             if (carritoCantidad.get(i)!=0){
                 double subtotal= carritoCantidad.get(i)*precios.get(i);
-                System.out.println("* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+" Subotal: S/."+ subtotal);
+                System.out.println("* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+"          S/."+ subtotal);
                 total+=subtotal;
             }
         }
@@ -811,4 +793,3 @@ public class norkys_v3 {
 
 
 }
-
