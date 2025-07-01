@@ -1025,8 +1025,7 @@ public class norkys_v3 {
         System.out.println(" MONTO PAGADO   :     S/." + String.format("%.2f", montoPagado));
         System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
         System.out.println("-----------------------------------------");
-
-        carritoCantidad.clear();
+        
         System.out.println("¿Exportar boleta?");
         System.out.println(" 1) NO (Regresar al menu principal)");
         System.out.println(" 2) SI");
@@ -1035,7 +1034,7 @@ public class norkys_v3 {
         if (seleccion == 1){
             menuPrincipal();
         }else{
-            exportarBoleta(verDetalleCompra(), costoTotal, montoPagado);
+            exportarBoleta(costoTotal, montoPagado);
         }
     }
 
@@ -1050,39 +1049,29 @@ public class norkys_v3 {
                 "   ^^     ^^    ^^     ^^    ^^    ^^"+
                 "\n                PEDIDO: "+numeroPedido +
                 "\n Recepción: "+usuarioActual +
-                "\n Pedido:"+numeroPedido+
-                "\n"
+                "\n Pedido:"+numeroPedido
         ;
 
         double total=0.0;
         for (int i = 0; i < carritoCantidad.size(); i++) {
             if (carritoCantidad.get(i)!=0){
                 double subtotal= carritoCantidad.get(i)*precios.get(i);
-                texto+="* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+"          S/."+ subtotal;
+                texto+="\n* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+"          S/."+ subtotal;
                 total+=subtotal;
             }
         }
         return texto;
     }
 
-    private static void exportarBoleta(String texto, double total, double monto) {
+    private void exportarBoleta(double total, double monto) {
         double igv=total*0.18;
         double subTotal=total-igv;
         double vuelto = monto-total;
 
-        System.out.println("\n-----------------------------------------");
-        System.out.println(" SUBTOTAL       :     S/." + String.format("%.2f", subTotal));
-        System.out.println(" IGV (18%)      :     S/." + String.format("%.2f", igv));
-        System.out.println(" TOTAL A PAGAR  :     S/." + String.format("%.2f", total));
-        System.out.println(" MONTO PAGADO   :     S/." + String.format("%.2f", monto));
-        System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
-        System.out.println("-----------------------------------------");
         try {
             FileWriter archivo=new FileWriter("Boleta.txt");
             archivo.write(
-
-                    texto+
-
+                    verDetalleCompra()+
                     "\n-----------------------------------------\n" +
                     "\n SUBTOTAL       :     S/." + String.format("%.2f", subTotal) +
                     "\n IGV (18%)      :     S/." + String.format("%.2f", igv) +
@@ -1092,6 +1081,9 @@ public class norkys_v3 {
                     "\n----------------------------------------\n\n"+
                     "¡Gracias por su compra!");
             archivo.close();
+            for (int i = 0; i < carritoCantidad.size(); i++) {
+                carritoCantidad.set(i,0);
+            }
             System.out.println("Boleta exportada con éxito...");
         }catch (Exception e){
             System.out.println("Error al exportar boleta");
