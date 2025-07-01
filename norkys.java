@@ -557,7 +557,7 @@ public class norkys_v3 {
     private String pedirCorreo() {
         String correo;
         do {
-            System.out.println("Ingrese el correo del empleado:");
+            System.out.println("Ingrese el correo a registrar:");
             correo=sc.nextLine();
             if (!validarCorreo(correo)) {
                 System.out.println("Correo inválido.");
@@ -568,7 +568,7 @@ public class norkys_v3 {
     private String pedirContraseña() {
         String contraseña;
         do {
-            System.out.println("Ingrese la contraseña del empleado:");
+            System.out.println("Ingrese la contraseña a registrar:");
             contraseña=sc.nextLine();
             if (!validarContraseña(contraseña)) {
                 System.out.println("Contraseña inválida. Debe tener al menos 8 caracteres, incluir letras, números y un carácter especial.");
@@ -579,7 +579,7 @@ public class norkys_v3 {
     private String pedirNombreUsuario() {
         String usuario;
         do{
-            System.out.println("Ingrese el nombre de usuario del empleado");
+            System.out.println("Ingrese el nombre de usuario");
             usuario=sc.nextLine().toUpperCase();
             if (usuarios.contains(usuario)){
                 System.out.println("El nombre de usuario ya está en uso");
@@ -588,9 +588,12 @@ public class norkys_v3 {
         return usuario;
     }
     private String pedirRol() {
+        if (usuarioActual.equals("INVITADO")){
+            return "VENDEDOR";
+        }
         String rol;
         do{
-            System.out.println("Seleccione el rol del empleado:");
+            System.out.println("Seleccione el rol:");
             System.out.println("1) Administrador");
             System.out.println("2) Vendedor");
             rol=sc.nextLine();
@@ -605,7 +608,7 @@ public class norkys_v3 {
     }
 
     private void registrar_Empleado(){
-        System.out.println("REGISTRAR EMPLEADO:");
+        System.out.println("REGISTRAR USUARIO:");
         String correo = pedirCorreo();
         String contraseña = pedirContraseña();
         String usuario = pedirNombreUsuario();
@@ -1089,6 +1092,7 @@ public class norkys_v3 {
                     "\n----------------------------------------\n\n"+
                     "¡Gracias por su compra!");
             archivo.close();
+            System.out.println("Boleta exportada con éxito...");
         }catch (Exception e){
             System.out.println("Error al exportar boleta");
         }
