@@ -865,7 +865,7 @@ public class norkys_v3 {
             return;// termina el metodo
         }
 
-        System.out.println("¿Cuántos platos de " + platos.get(indice) + " añadirá a su carrito?");
+        System.out.println("¿Cuántas unidades de " + platos.get(indice) + " añadirá a su carrito?");
         int cantidad = sc.nextInt();
         sc.nextLine();
         if (cantidad<=0 || cantidad > stocks.get(indice)){
@@ -1025,7 +1025,7 @@ public class norkys_v3 {
         System.out.println(" MONTO PAGADO   :     S/." + String.format("%.2f", montoPagado));
         System.out.println(" VUELTO         :     S/." + String.format("%.2f", vuelto));
         System.out.println("-----------------------------------------");
-        
+
         System.out.println("¿Exportar boleta?");
         System.out.println(" 1) NO (Regresar al menu principal)");
         System.out.println(" 2) SI");
@@ -1056,7 +1056,7 @@ public class norkys_v3 {
         for (int i = 0; i < carritoCantidad.size(); i++) {
             if (carritoCantidad.get(i)!=0){
                 double subtotal= carritoCantidad.get(i)*precios.get(i);
-                texto+="\n* "+ carritoCantidad.get(i)+" platos de "+platos.get(i)+"          S/."+ subtotal;
+                texto+="\n* "+ carritoCantidad.get(i)+" unidades de "+platos.get(i)+"  |  S/."+ subtotal;
                 total+=subtotal;
             }
         }
@@ -1072,14 +1072,14 @@ public class norkys_v3 {
             FileWriter archivo=new FileWriter("Boleta.txt");
             archivo.write(
                     verDetalleCompra()+
-                    "\n-----------------------------------------\n" +
-                    "\n SUBTOTAL       :     S/." + String.format("%.2f", subTotal) +
-                    "\n IGV (18%)      :     S/." + String.format("%.2f", igv) +
-                    "\n TOTAL A PAGAR  :     S/." + String.format("%.2f", total) +
-                    "\n MONTO PAGADO   :     S/." + String.format("%.2f", monto) +
-                    "\n VUELTO         :     S/." + String.format("%.2f", vuelto)+
-                    "\n----------------------------------------\n\n"+
-                    "¡Gracias por su compra!");
+                            "\n-----------------------------------------\n" +
+                            "\n SUBTOTAL       :     S/." + String.format("%.2f", subTotal) +
+                            "\n IGV (18%)      :     S/." + String.format("%.2f", igv) +
+                            "\n TOTAL A PAGAR  :     S/." + String.format("%.2f", total) +
+                            "\n MONTO PAGADO   :     S/." + String.format("%.2f", monto) +
+                            "\n VUELTO         :     S/." + String.format("%.2f", vuelto)+
+                            "\n----------------------------------------\n\n"+
+                            "¡Gracias por su compra!");
             archivo.close();
             for (int i = 0; i < carritoCantidad.size(); i++) {
                 carritoCantidad.set(i,0);
